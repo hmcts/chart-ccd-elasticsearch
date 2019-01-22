@@ -1,4 +1,4 @@
-name: chart-ccd pipeline
+name: chart-ccd-elasticsearch pipeline
 trigger:
   branches:
     include:
@@ -22,8 +22,8 @@ jobs:
   steps:
   - template: steps/charts/validate.yaml@cnp-library
     parameters:
-      chartName: ccd
-      chartReleaseName: chart-ccd-ci-test
+      chartName: ccd-elasticsearch
+      chartReleaseName: chart-ccd-elasticsearch-ci-test
       chartNamespace: chart-tests-ccd
       helmInstallTimeout: "300"
 
@@ -40,6 +40,6 @@ jobs:
   steps:
   - template: steps/charts/release.yaml@cnp-library
     parameters:
-      chartName: ccd
-      chartReleaseName: chart-ccd
+      chartName: ccd-elasticsearch
+      chartReleaseName: chart-ccd-elasticsearch
       chartNamespace: chart-tests-ccd
