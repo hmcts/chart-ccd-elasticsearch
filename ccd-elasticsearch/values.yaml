@@ -1,0 +1,115 @@
+elasticsearch:
+  nameOverride: ccd-elasticsearch
+  cluster:
+    env: {MINIMUM_MASTER_NODES: "1"}
+  data:
+    persistence:
+      enabled: false
+  master:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        cpu: 1
+        memory: 1024Mi
+  client:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        cpu: 1
+        memory: 1024Mi
+  data:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 25m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 2048Mi
+
+logstash:
+  persistence:
+    enabled: false
+  elasticsearch:
+    host: "{{ .Release.Name }}-ccd-elasticsearch-client"
+    port: 9200
+  configTpl:
+    postgresql.host: "{{ .Release.Name }}-ccd-postgres"
+    postgresql.port: "5432"
+  volumeMounts:
+  - name: logstash-drivers
+    mountPath: /usr/share/logstash/drivers
+  volumes:
+  - name: logstash-drivers
+    emptyDir: {}
+  extraInitContainers: |
+    - name: "download-drivers"
+      image: "alpine:3.8"
+      volumeMounts:
+      - name: logstash-drivers
+        mountPath: "/logstash-drivers"
+      command: ["/bin/sh"]
+      args: ["-c", "wget -nd -O /logstash-drivers/postgresql-42.2.5.jar http://central.maven.org/maven2/org/postgresql/postgresql/42.2.5/postgresql-42.2.5.jar"]
+  inputs:
+    main: |-
+      input {
+        jdbc {
+          # Postgres jdbc connection string to our database, mydb
+          jdbc_connection_string => "jdbc:postgresql://${POSTGRESQL_HOST}:${POSTGRESQL_PORT}/data-store"
+          # The user we wish to execute our statement as
+          jdbc_user => "hmcts"
+          jdbc_password => "hmcts"
+          jdbc_validate_connection => true
+          # The path to jdbc driver
+          jdbc_driver_library => "/usr/share/logstash/drivers/postgresql-42.2.5.jar"
+          # The name of the driver class for Postgresql
+          jdbc_driver_class => "org.postgresql.Driver"
+          jdbc_paging_enabled => "true"
+          jdbc_page_size => "1000"
+          jdbc_default_timezone => "UTC"
+          statement => "SELECT id, created_date, last_modified, jurisdiction, case_type_id, state, data::TEXT as json_data, data_classification::TEXT as json_data_classification, reference, security_classification from case_data where last_modified >= :sql_last_value::timestamp"
+          clean_run => false
+          # every second
+          schedule => "* * * * * *"
+          # every 2 seconds
+          # schedule => "/2 * * * * *"
+        }
+      }
+  filters:
+    main: |-
+      filter {
+        json {
+          source => "json_data"
+          target => "data"
+          remove_field => ["json_data"]
+        }
+        json {
+          source => "json_data_classification"
+          target => "data_classification"
+          remove_field => ["json_data_classification"]
+        }
+        mutate {
+          add_field => { "index_id" => "%{case_type_id}_cases" }
+        }
+        mutate {
+          lowercase => [ "index_id" ]
+        }
+      }
+  outputs:
+    main: |-
+      #FIXME document_type is deprecated
+      output {
+        elasticsearch {
+          hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
+          sniffing => false
+          index => "%{[index_id]}"
+          document_type => "_doc"
+          document_id => "%{id}"
+        }
+      }

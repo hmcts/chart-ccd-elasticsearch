@@ -1,0 +1,10 @@
+dependencies:
+  - name: ccd
+    version: ~0.4.0
+    repository: '@hmcts'
+  - name: elasticsearch
+    version: ~1.17.0
+    repository: '@stable'
+  - name: logstash
+    version: ~1.4.3
+    repository: '@hmcts'
