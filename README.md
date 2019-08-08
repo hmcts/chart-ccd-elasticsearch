@@ -49,12 +49,20 @@ ccd-elasticsearch:
 
     caseManagementWeb:
      # enabled: true # if you need access to the web ui then enable this, otherwise it won't be deployed
-
+      environment:
+        NODE_TLS_REJECT_UNAUTHORIZED: 0
+        
     printApi:
       # enabled: true # if you need access to the case print service then enable this
       s2sKey: ${PRINT_S2S_KEY}
       probateTemplateUrl: http://${SERVICE_NAME}-probate-app
 
+    adminWeb:
+      enabled: true # if you need access to the admin web ui then enable this, otherwise it won't be deployed
+      s2sKey: ${ADMIN_S2S_KEY}
+      idamClientSecret: ${ADMIN_WEB_IDAM_SECRET}
+      environment:
+        NODE_TLS_REJECT_UNAUTHORIZED: 0
 ```
 
 The data sink between ccd and elasticsearch has the following default configuration which can also be overridden in values.template.yaml
