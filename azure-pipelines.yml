@@ -26,6 +26,10 @@ jobs:
       chartReleaseName: chart-ccd-elasticsearch-ci-test
       chartNamespace: chart-tests-ccd
       helmInstallTimeout: "500"
+      serviceConnection: "DCD-CFTAPPS-SBOX"
+      registryServiceConnection: "azurerm-prod"
+      aksResourceGroup: "sbox-01-rg"
+      aksCluster: "sbox-01-aks"
 
 - job: Release
   # Make sure we have a tag to run this job
@@ -43,3 +47,7 @@ jobs:
       chartName: ccd-elasticsearch
       chartReleaseName: chart-ccd-elasticsearch
       chartNamespace: chart-tests-ccd
+      serviceConnection: "DCD-CFTAPPS-SBOX"
+      registryServiceConnection: "azurerm-prod"
+      aksResourceGroup: "sbox-01-rg"
+      aksCluster: "sbox-01-aks"
