@@ -3,8 +3,8 @@ dependencies:
     version: ~3.0.4
     repository: '@hmctspublic'
   - name: elasticsearch
-    version: ~1.17.0
+    version: ~1.30.0
     repository: '@stable'
   - name: logstash
-    version: ~1.4.3
+    version: ~2.1.0
     repository: '@hmctspublic'
