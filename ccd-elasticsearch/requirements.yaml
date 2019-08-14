@@ -1,6 +1,6 @@
 dependencies:
   - name: ccd
-    version: ~0.5.3
+    version: ~3.0.4
     repository: '@hmcts'
   - name: elasticsearch
     version: ~1.17.0
