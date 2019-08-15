@@ -13,7 +13,7 @@ resources:
     type: github
     ref: master
     name: hmcts/cnp-azuredevops-libraries
-    endpoint: 'HMCTS Github'
+    endpoint: 'hmcts'
 
 jobs:
 - job: Validate
@@ -25,7 +25,7 @@ jobs:
       chartName: ccd-elasticsearch
       chartReleaseName: chart-ccd-elasticsearch-ci-test
       chartNamespace: chart-tests-ccd
-      helmInstallTimeout: "300"
+      helmInstallTimeout: "500"
 
 - job: Release
   # Make sure we have a tag to run this job
