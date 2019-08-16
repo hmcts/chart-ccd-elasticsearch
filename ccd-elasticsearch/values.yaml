@@ -1,10 +1,7 @@
 elasticsearch:
-  nameOverride: ccd-elasticsearch
+  nameOverride: ccd-es 
   cluster:
     env: {MINIMUM_MASTER_NODES: "1"}
-  data:
-    persistence:
-      enabled: false
   master:
     replicas: 1
     resources:
@@ -14,6 +11,8 @@ elasticsearch:
       limits:
         cpu: 1
         memory: 1024Mi
+    persistence:
+      enabled: false
   client:
     replicas: 1
     resources:
@@ -32,12 +31,14 @@ elasticsearch:
       limits:
         cpu: 1
         memory: 2048Mi
+    persistence:
+      enabled: false
 
 logstash:
   persistence:
     enabled: false
   elasticsearch:
-    host: "{{ .Release.Name }}-ccd-elasticsearch-client"
+    host: "{{ .Release.Name }}-ccd-es-client"
     port: 9200
   configTpl:
     postgresql.host: "{{ .Release.Name }}-ccd-postgres"
