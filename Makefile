@@ -4,14 +4,13 @@ CI_VALUES := ci-values.yaml
 RELEASE := chart-${CHART}-release
 NAMESPACE := chart-tests-ccd
 TEST := ${RELEASE}-test-service
-ACR := hmctssandbox
-AKS_RESOURCE_GROUP := cnp-aks-sandbox-rg
-AKS_CLUSTER := cnp-aks-sandbox-cluster
+ACR := hmctspublic
+AKS_RESOURCE_GROUP := cnp-aks-rg
+AKS_CLUSTER := cnp-aks-cluster
 
 setup:
-	az configure --defaults acr=${ACR}
-	az acr helm repo add
-	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER} --overwrite-existing
+	helm repo add ${ACR} https://${ACR}.azurecr.io/helm/v1/repo
+	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER} --overwrite-existing --subscription DCD-CNP-DEV
 	helm dependency update ${CHART}
 
 clean:
