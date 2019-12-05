@@ -23,8 +23,11 @@ lint:
 inspect:
 	helm inspect chart ${CHART}
 
+upgrade:
+	helm upgrade --install ${RELEASE}  ${CHART} --namespace ${NAMESPACE} -f ci-values.yaml  --wait
+
 deploy:
-	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ${CI_VALUES}  --wait  --timeout 420
+	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml  --wait
 
 test:
 	helm test ${RELEASE}

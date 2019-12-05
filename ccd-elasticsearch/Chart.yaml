@@ -4,7 +4,7 @@ description: |-
   Please use the base ccd chart unless you really need the extra search functionalities 
   provided by elasticsearch as these cost resources and increase deployment time. 
 name: ccd-elasticsearch
-version: 0.5.3
+version: 1.0.0-rc.1
 icon: https://github.com/hmcts/chart-ccd/raw/master/images/icons8-java-50.png
 keywords:
   - ccd
