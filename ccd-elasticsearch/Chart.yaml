@@ -3,7 +3,7 @@ appVersion: "1.0"
 description: |-
   A Helm chart for the HMCTS CCD product which includes elasticsearch and logstash.
   Please use the base ccd chart unless you really need the extra search functionalities 
-  provided by elasticsearch as these cost resources and increase deployment time. 
+  provided by elasticsearch as these cost resources and increase deployment time..
 name: ccd-elasticsearch
 version: 0.5.4
 icon: https://github.com/hmcts/chart-ccd/raw/master/images/icons8-java-50.png
