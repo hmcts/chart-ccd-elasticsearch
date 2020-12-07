@@ -19,8 +19,8 @@ dependencies:
     version: ~4.3.5
     repository: '@hmctspublic'
   - name: elasticsearch
-    version: ~1.30.0
-    repository: '@stable'
+    version: ~13.0.2
+    repository: '@bitnami'
   - name: logstash
     version: ~2.4.1
     repository: '@hmctspublic'
