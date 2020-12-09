@@ -2,7 +2,7 @@
 CHART := ccd-elasticsearch
 CI_VALUES := ci-values.yaml
 RELEASE := chart-${CHART}-release
-NAMESPACE := chart-tests-ccd
+NAMESPACE := ccd
 TEST := ${RELEASE}-test-service
 ACR := hmctspublic
 AKS_RESOURCE_GROUP := cnp-aks-rg

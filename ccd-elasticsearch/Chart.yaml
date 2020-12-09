@@ -1,10 +1,11 @@
-apiVersion: v1
+apiVersion: v2
+appVersion: "1.0"
 description: |-
   A Helm chart for the HMCTS CCD product which includes elasticsearch and logstash.
   Please use the base ccd chart unless you really need the extra search functionalities 
-  provided by elasticsearch as these cost resources and increase deployment time. 
+  provided by elasticsearch as these cost resources and increase deployment time..
 name: ccd-elasticsearch
-version: 0.5.3
+version: 0.5.4
 icon: https://github.com/hmcts/chart-ccd/raw/master/images/icons8-java-50.png
 keywords:
   - ccd
@@ -13,3 +14,13 @@ keywords:
   - case-data-management
   - elasticsearch
   - logstash
+dependencies:
+  - name: ccd
+    version: ~4.3.5
+    repository: '@hmctspublic'
+  - name: elasticsearch
+    version: 13.0.2
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: logstash
+    version: ~2.4.1
+    repository: '@hmctspublic'

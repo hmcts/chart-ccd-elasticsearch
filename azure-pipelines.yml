@@ -24,7 +24,7 @@ jobs:
     parameters:
       chartName: ccd-elasticsearch
       chartReleaseName: chart-ccd-elasticsearch-ci-test
-      chartNamespace: chart-tests-ccd
+      chartNamespace: chart-tests
       helmInstallTimeout: "1000"
 
 - job: Release
