@@ -42,4 +42,4 @@ jobs:
     parameters:
       chartName: ccd-elasticsearch
       chartReleaseName: chart-ccd-elasticsearch
-      chartNamespace: chart-tests
+      chartNamespace: chart-tests-ccd
